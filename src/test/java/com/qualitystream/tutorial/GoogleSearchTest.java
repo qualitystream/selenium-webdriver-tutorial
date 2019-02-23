@@ -12,10 +12,12 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 //import org.openqa.selenium.JavascriptExecutor;
 
+
 public class GoogleSearchTest {
 	
+	private static final String SEARCH_PHRASE = "quality-stream IntroducciÃ³n a la AutomatizaciÃ³n de Pruebas de Software";
 	private WebDriver driver;
-
+	
 	@Before
 	public void setUp() throws Exception {
 		System.setProperty("webdriver.gecko.driver", "./src/test/resources/gecko/linux/64/geckodriver");
@@ -23,46 +25,39 @@ public class GoogleSearchTest {
 		driver.manage().window().maximize();
 		driver.get("https://www.google.com");
 	}
-
+	
 	@Test
-	public void testGooglePage() {
-		
-	    WebElement searchBox = driver.findElement(By.name("q"));
+	public void testGooglePage() throws InterruptedException {
+		WebElement searchBox = driver.findElement(By.name("q"));
 		searchBox.clear();
-		searchBox.sendKeys("quality-stream Introducción a la Automatización de Pruebas de Software");
+		searchBox.sendKeys(SEARCH_PHRASE);
+		Thread.sleep(1000);
 		searchBox.submit();
-		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-		assertEquals("quality-stream Introducción a la Automatización de Pruebas de Software - Google Search",driver.getTitle());
+		Thread.sleep(10000);
+		System.out.println(driver.getTitle());
+		assertTrue(driver.getTitle().indexOf(SEARCH_PHRASE) != -1);
 	}
 	
-	/*@Test void localizadores() {
-		 
-		By locator = By.id("id_del_elemento");
-		
-		By locator_name = By.name("name_elemnt");
-		
-		By locator_className = By.className("clase_elemento");
-		
-		By locator_tagName = By.tagName("tag");
-		
-		By locator_linktext = By.linkText("texto_link");
-		
-		By locator_partialLinkText = By.partialLinkText("parte_texto");
-		
-		By locator_cssSelector = By.cssSelector("input[name='q']");
-		
-		By locator_Xpath = By.xpath("//input[@name='q']");
-		
-		// JavaScript
-		
-		JavascriptExecutor js = (JavascriptExecutor) driver;
-		 WebElement searchBox = (WebElement)js.executeScript("return document.getElementsByName('q')[0]");
-		
-	}*/
+	/*
+	 * @Test void localizadores() {
+	 * By locator = By.id("id_del_elemento");
+	 * By locator_name = By.name("name_elemnt");
+	 * By locator_className = By.className("clase_elemento");
+	 * By locator_tagName = By.tagName("tag");
+	 * By locator_linktext = By.linkText("texto_link");
+	 * By locator_partialLinkText = By.partialLinkText("parte_texto");
+	 * By locator_cssSelector = By.cssSelector("input[name='q']");
+	 * By locator_Xpath = By.xpath("//input[@name='q']");
+	 * // JavaScript
+	 * JavascriptExecutor js = (JavascriptExecutor) driver;
+	 * WebElement searchBox =
+	 * (WebElement)js.executeScript("return document.getElementsByName('q')[0]");
+	 * }
+	 */
 	
 	@After
 	public void tearDown() {
 		driver.quit();
 	}
-
+	
 }
