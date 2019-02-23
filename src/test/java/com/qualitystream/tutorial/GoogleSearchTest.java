@@ -15,6 +15,8 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class GoogleSearchTest {
 	
+	// The string is in the constant. Avoid repeat strings on code use constants
+	// instead.
 	private static final String SEARCH_PHRASE = "quality-stream Introducción a la Automatización de Pruebas de Software";
 	private WebDriver driver;
 	
@@ -35,25 +37,21 @@ public class GoogleSearchTest {
 		searchBox.submit();
 		Thread.sleep(10000);
 		System.out.println(driver.getTitle());
+		// This is a little different from the original code.
 		assertTrue(driver.getTitle().indexOf(SEARCH_PHRASE) != -1);
+		// The original was:
+		// assertEquals("quality-stream Introducción a la Automatización de Pruebas de Software - Google Search", driver.getTitle());
+		// However, due internalization that's assertEquals maybe fail.
+		// driver.getTitle() must end with the string "- Google Search", but if the
+		// browser is in Spanish the end of the string will be: "- Buscar con Google"
+		// causing a false negative, 'cause the search string is part of the
+		// driver.getTitle()
+		// In this case the better solution is to check if the search string is part of
+		// the driver.getTitle()
+		// If driver.getTitle().indexOf(SEARCH_PHRASE) returns a value different to -1,
+		// the search string is contained inside, no matter where.
+		
 	}
-	
-	/*
-	 * @Test void localizadores() {
-	 * By locator = By.id("id_del_elemento");
-	 * By locator_name = By.name("name_elemnt");
-	 * By locator_className = By.className("clase_elemento");
-	 * By locator_tagName = By.tagName("tag");
-	 * By locator_linktext = By.linkText("texto_link");
-	 * By locator_partialLinkText = By.partialLinkText("parte_texto");
-	 * By locator_cssSelector = By.cssSelector("input[name='q']");
-	 * By locator_Xpath = By.xpath("//input[@name='q']");
-	 * // JavaScript
-	 * JavascriptExecutor js = (JavascriptExecutor) driver;
-	 * WebElement searchBox =
-	 * (WebElement)js.executeScript("return document.getElementsByName('q')[0]");
-	 * }
-	 */
 	
 	@After
 	public void tearDown() {
