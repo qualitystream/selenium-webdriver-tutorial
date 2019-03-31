@@ -16,7 +16,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 public class GoogleSearchTest {
 	
 	private WebDriver driver;
-
+	
 	@Before
 	public void setUp() throws Exception {
 		System.setProperty("webdriver.chrome.driver", "./src/test/resources/chromedriver/chromedriver.exe");
@@ -63,7 +63,7 @@ public class GoogleSearchTest {
 	
 	@After
 	public void tearDown() {
-		driver.quit();
+		//driver.quit();
 	}
 
 }
